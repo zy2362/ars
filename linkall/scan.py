@@ -65,12 +65,18 @@ def alert(phone, alarm_type, data):
         Protocol = 'sms',
         Endpoint = '+1' + phone
     )
+    client.subscribe(
+        TopicArn = topic_arn,
+        Protocol = 'sms',
+        Endpoint = '+1' + phone
+    )
     msg = 'You have a new message.'
     if alarm_type == 'runout':
         msg = 'Your water will be runout in %s days' % data
     elif alarm_type == 'offline':
         msg = 'Your ARS device for is offline'
-    client.publish(Message = msg, TopicArn = topic_arn)
+    a = client.publish(Message = msg, TopicArn = topic_arn)
+    print(a)
 
 if __name__ == "__main__":
     scan()
