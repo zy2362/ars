@@ -22,7 +22,7 @@ def submit(request, weight):
         clearDB()
         thing.clear_time = time()
     thing.weight = weight - thing.net_weight
-    submitDB(time(), thing.weight)
+    submitDB(int(time()), thing.weight)
     thing.save()
     return JsonResponse({"status": "success", "action": "submit record"})
 
