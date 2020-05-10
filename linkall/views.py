@@ -3,30 +3,30 @@ from django.http import HttpResponse, Http404, JsonResponse
 from .models import User, Thing
 from random import random
 from time import time
-from .library import predict
 
-def alarm():
-    pass
 
 def initialize(request):
-    thing = Thing(id=1, name='Water', net_weight=184, phone='6469193375')
+    thing = Thing(id=1, name = 'Water',
+                  net_weight = 184,
+                  clear_time = time(),
+                  phone      = '6469193375',
+                 )
     thing.save()
-    return HttpResponse("Initialization successed!")
+    return JsonResponse({"status": "success", "action": "initialization"})
 
 def submit(request, weight):
     thing = Thing.objects.get(id=1)
     thing.watch_dog = 0
     if thing.weight <= weight - thing.net_weight:
         f = open('~data/1.csv', 'w')
+        thing.clear_time = time()
     else:
         f = open('~/data/1.csv', 'a+')
-    now = int(time() - 1589083224)
-    f.write(str(now),str(thing.weight))
+    time_flies = int(time() - thing.clear_time)
+    f.write(str(thing.weight)+","+str(time_flies)+"\n")
     thing.weight = weight - thing.net_weight
     thing.save()
-    if(predict() < 30): # when will alarm user runout
-        alarm()
-    return JsonResponse({"status":"success"})
+    return JsonResponse({"status": "success", "action": "submit record"})
 
 def settings(request):
     things = Thing.objects.all()
@@ -35,4 +35,4 @@ def settings(request):
     return render(request, 'linkall/settings.html', context)
 
 def dashboard(request, user_id):
-    return render(request, 'linkall/dashboard.html', context)
+    return HttpResponse("Not avaliable")
