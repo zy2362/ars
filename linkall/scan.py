@@ -59,7 +59,7 @@ def predict(data, betas):
 
 def alert(phone, alarm_type, data):
     client = boto3.client('sns')
-    topic_arn = "arn:aws:sns:us-east-1:154204703882:mtaSub"
+    topic_arn = "arn:aws:sns:us-east-1:154204703882:linkall"
     client.subscribe(
         TopicArn = 'linkall',
         Protocol = 'sms',
