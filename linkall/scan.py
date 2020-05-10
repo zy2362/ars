@@ -5,8 +5,8 @@ from boto3.dynamodb.conditions import Key,Attr
 from datetime import datetime
 
 def scan():
-    alpha = 0.085
-    iteration = 1000
+    alpha = 0.1
+    iteration = 1500
     phone = "6469193375"
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('linkall')
