@@ -20,9 +20,8 @@ def scan():
         #print(runout_time)
         #print(betas)
         remains_time = runout_time - int(time())
-        alert(phone, alarm_type="runout", data=remains_time) # for test
-        #if remains_time < 30: # should be 3600 * 24 * 3 in final product
-        #    alert(phone, alarm_type="runout", data=remains_time)
+        if remains_time < 30: # should be 3600 * 24 * 3 in final product
+            alert(phone, alarm_type="runout", data=remains_time)
 
 def parse(datas):
     weights = []
