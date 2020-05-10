@@ -17,7 +17,7 @@ def scan():
     if len(data) > 1:
         betas = linearRegression(datas=data, alpha=alpha, iteration=iteration)
         runout_time = dt_object = datetime.fromtimestamp(int(predict([1,0], betas)))
-        remains_time = int(runout_time - time())
+        remains_time = runout_time - int(time())
         alert(phone, alarm_type="runout", data=runout_time) # for test
         #if remains_time < 30: # should be 3600 * 24 * 3 in final product
         #    alert(phone, alarm_type="runout", data=remains_time)
