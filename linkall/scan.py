@@ -62,8 +62,8 @@ def alert(phone, alarm_type, data):
     topic_arn = "arn:aws:sns:us-east-1:154204703882:linkall"
     client.subscribe(
         TopicArn = topic_arn,
-        Protocol = 'sms',
-        Endpoint = '+1' + phone
+        Protocol = 'email',
+        Endpoint = 'yuansasi@outlook.com'
     )
     msg = 'You have a new message.'
     if alarm_type == 'runout':
