@@ -38,6 +38,7 @@ def submitDB(time, weight):
     table = dynamodb.Table('linkall')
     table.put_item(
         Item={
+            'id': time,
             'time': time,
             'weight': weight,
             'thing_id': 1
