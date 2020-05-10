@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['34.227.157.139']
 # Application definition
 
 INSTALLED_APPS = [
+    'django.crontab',
     'linkall.apps.LinkallConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,12 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.crontab',
 ]
 
-CRONJOBS = (
-    ('*/1 * * * *', 'linkall.scan.scan'),
-)
+CRONJOBS = [
+    ('*/1 * * * *', 'linkall.scan.scan')
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

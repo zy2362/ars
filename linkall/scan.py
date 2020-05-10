@@ -1,12 +1,11 @@
 import csv, boto3
 import numpy as np
 from time import time, sleep
-from .models import Thing
 
 def scan():
     alpha = 0.085
     iteration = 100
-    thing = Thing.objects.get(id=1)
+    phone = "6469193375"
     with open('~/data/1.csv') as f:
         data = parse(csv.reader(f))
         if len(data) > 1:
@@ -14,14 +13,7 @@ def scan():
             runout_time = predict([1,0], betas)
             remains_time = runout_time - time()
             if remains_time < 30: # should be 3600 * 24 * 3 in final product
-                alert(thing.phone, alarm_type="runout", data=[thing.name,remains_time])
-    
-    if thing.watch_dog == 3:
-        alert(thing.phone, alarm_type="offline", data=thing.name)
-        thing.watch_dot += 1
-    elif thing.watch_dog < 3:
-        thing.watch_dog += 1
-    thing.save()
+                alert(phone, alarm_type="runout", data=remains_time)
 
 def parse(data):
     weights = []
@@ -59,15 +51,17 @@ def predict(data, betas):
 def alert(phone, alarm_type, data):
     client = boto3.client('sns')
     topic_arn = "arn:aws:sns:us-east-1:154204703882:mtaSub"
-    # subscribe for a cell
     client.subscribe(
         TopicArn = 'linkall',
         Protocol = 'sms',
         Endpoint = '+1' + phone
     )
-    msg = 'You have a new message'
+    msg = 'You have a new message.'
     if alarm_type == 'runout':
-        msg = 'Your %s will be runout in %s days' % (data[0], data[1])
+        msg = 'Your %s will be runout in %s days' % data
     elif alarm_type == 'offline':
-        msg = 'Your ARS device for %s is offline' % (data)
+        msg = 'Your ARS device for is offline'
     client.publish(Message = msg, TopicArn = topic_arn)
+
+if __name__ == "__main__":
+    scan()

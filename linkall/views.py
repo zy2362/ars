@@ -5,7 +5,6 @@ from random import random
 from time import time
 import os
 
-
 def initialize(request):
     thing = Thing(id=1, name = 'Water',
                   net_weight = 184,
