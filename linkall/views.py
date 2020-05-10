@@ -1,10 +1,73 @@
+import os, boto3, sys
+import numpy as np
 from django.shortcuts import render
 from django.http import HttpResponse, Http404, JsonResponse
 from .models import Thing
 from random import random
-from time import time
-import os, boto3
+from time import time, sleep
+from datetime import datetime
 from boto3.dynamodb.conditions import Key,Attr
+
+#==================================
+# Precidt
+#==================================
+
+def scan():
+    alpha = 0.1
+    iteration = 1500
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('linkall')
+    response = table.scan(
+        FilterExpression=Attr('thing_id').eq(1)
+    )
+    data = parse(response['Items'])
+    if len(data) > 1:
+        betas = linearRegression(datas=data, alpha=alpha, iteration=iteration)
+        runout_time = int(predict([1,0], betas))
+        remains_time = datetime.fromtimestamp(runout_time - 4 * 3600)
+        return [str(remains_time), data, betas]
+    else:
+        return False
+
+def parse(datas):
+    weights = []
+    times = []
+    for data in datas:
+        weights.append(int(data['weight']))
+        times.append(int(data['time']))
+    weights_std = np.std(weights, ddof=1)
+    weights_mean = np.mean(weights)
+
+    parsedData = []
+    for data in datas:
+        nvRow = [1]
+        nvRow.append((int(data['weight']) - weights_mean) / weights_std)
+        nvRow.append(int(data['time']))
+        parsedData.append(nvRow)
+
+    return parsedData
+
+def linearRegression(datas, alpha, iteration):
+    betas = [0, 0]
+    for _ in range(iteration):
+        tempSum = [0, 0]
+        for data in datas:
+            tempPredict = predictDelta(data, betas)
+            tempSum[0] += tempPredict * data[0]
+            tempSum[1] += tempPredict * data[1]
+        betas[0] -= alpha * tempSum[0] / len(datas)
+        betas[1] -= alpha * tempSum[1] / len(datas)
+    return betas
+
+def predictDelta(data, betas):
+    return data[0] * betas[0] + data[1] * betas[1] - data[2]
+
+def predict(data, betas):
+    return data[0] * betas[0] + data[1] * betas[1]
+
+#==================================
+#  MODUALS
+#==================================
 
 def initialize(request):
     thing = Thing(id=1, name = 'Water',
@@ -31,7 +94,10 @@ def settings(request):
     # return render(request, 'linkall/settings.html', context)
 
 def dashboard(request):
-    return HttpResponse("Not avaliable "+str(time()))
+    #data = scan()
+    data = ['1589152465', [[1,1589152465,100],[1,1589152455,90],[1,1589152445,80],[1,1589152435,70],[1,1589152425,60]],[1589152465,-1] ]
+    context = {'user':'Yuan Sa', 'date':data[0], 'data':data[1], 'beta':data[2]}
+    return render(request, 'linkall/dashboard.html', context=context)
 
 def submitDB(time, weight):
     dynamodb = boto3.resource('dynamodb')

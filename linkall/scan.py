@@ -4,7 +4,7 @@ from time import time, sleep
 from boto3.dynamodb.conditions import Key,Attr
 from datetime import datetime
 
-def scan():
+def scan(notification=False):
     alpha = 0.1
     iteration = 1500
     phone = "6469193375"
@@ -19,9 +19,10 @@ def scan():
         runout_time = int(predict([1,0], betas))
         #remains_time = runout_time - int(time())
         remains_time = datetime.fromtimestamp(runout_time - 4 * 3600)
-        alert(phone, alarm_type="runout", data=remains_time)
-        #if remains_time < 30: # should be 3600 * 24 * 3 in final product
-        #    alert(phone, alarm_type="runout", data=remains_time)
+        if notification == True:
+            alert(phone, alarm_type="runout", data=remains_time)
+        else:
+            return [str(remains_time), data, betas]
 
 def parse(datas):
     weights = []
@@ -78,7 +79,7 @@ def alert(phone, alarm_type, data):
 if __name__ == "__main__":
     if sys.argv[1] == 'loop':
         while True:
-            scan()
+            scan(True)
             sleep(20)
     else:
-        scan()
+        scan(True)
