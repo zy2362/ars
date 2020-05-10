@@ -1,27 +1,32 @@
-import csv, boto3
+import boto3
 import numpy as np
 from time import time, sleep
+from boto3.dynamodb.conditions import Key,Attr
 
 def scan():
     alpha = 0.085
     iteration = 100
     phone = "6469193375"
-    with open('~/data/1.csv') as f:
-        data = parse(csv.reader(f))
-        if len(data) > 1:
-            betas = linearRegression(datas=data, alpha=alpha, iteration=iteration)
-            runout_time = predict([1,0], betas)
-            remains_time = runout_time - time()
-            alert(phone, alarm_type="runout", data=remains_time) # for test
-            #if remains_time < 30: # should be 3600 * 24 * 3 in final product
-            #    alert(phone, alarm_type="runout", data=remains_time)
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('linkall')
+    response = table.scan(
+        FilterExpression=Attr('thing_id').eq(1)
+    )
+    data = parse(response['Items'])
+    if len(data) > 1:
+        betas = linearRegression(datas=data, alpha=alpha, iteration=iteration)
+        runout_time = predict([1,0], betas)
+        remains_time = runout_time - time()
+        alert(phone, alarm_type="runout", data=remains_time) # for test
+        #if remains_time < 30: # should be 3600 * 24 * 3 in final product
+        #    alert(phone, alarm_type="runout", data=remains_time)
 
-def parse(data):
+def parse(datas):
     weights = []
     times = []
-    for row in data:
-        weights.append(int(row[1]))
-        times.append(int(row[0]))
+    for data in datas:
+        weights.append(int(data['weight']))
+        times.append(int(data['time']))
     weights_std = np.std(weights, ddof=1)
     weights_mean = np.mean(weights)
 
