@@ -71,9 +71,3 @@ def alert(phone, alarm_type, data):
     elif alarm_type == 'offline':
         msg = 'Your ARS device for %s is offline' % (data)
     client.publish(Message = msg, TopicArn = topic_arn)
-    pass
-
-if __name__ == "__main__":
-    while True:
-        scan()
-        sleep(30)

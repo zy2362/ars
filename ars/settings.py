@@ -38,7 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.crontab',
 ]
+
+CRONJOBS = (
+    ('*/1 * * * *', 'linkall.scan.scan'),
+)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
