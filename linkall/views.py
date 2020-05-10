@@ -31,7 +31,7 @@ def settings(request):
     # return render(request, 'linkall/settings.html', context)
 
 def dashboard(request):
-    return HttpResponse("Not avaliable")
+    return HttpResponse("Not avaliable "+str(time()))
 
 def submitDB(time, weight):
     dynamodb = boto3.resource('dynamodb')
