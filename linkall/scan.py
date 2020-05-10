@@ -13,7 +13,6 @@ def scan():
         FilterExpression=Attr('thing_id').eq(1)
     )
     data = parse(response['Items'])
-    print(data)
     if len(data) > 1:
         betas = linearRegression(datas=data, alpha=alpha, iteration=iteration)
         runout_time = predict([1,0], betas)
@@ -53,6 +52,10 @@ def linearRegression(datas, alpha, iteration):
     return betas
 
 def predict(data, betas):
+    print('==DATA=========')
+    print(data)
+    print('==BETAS=========')
+    print(betas)
     return data[0] * betas[0] + data[1] * betas[1] - data[2]
 
 def alert(phone, alarm_type, data):
