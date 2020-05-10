@@ -65,11 +65,6 @@ def alert(phone, alarm_type, data):
         Protocol = 'sms',
         Endpoint = '+1' + phone
     )
-    client.subscribe(
-        TopicArn = topic_arn,
-        Protocol = 'sms',
-        Endpoint = 'yuansasi@outlook.com'
-    )
     msg = 'You have a new message.'
     if alarm_type == 'runout':
         msg = 'Your water will be runout in %s days' % data
