@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{user.nick_name}} - Dashboard</title>
+</head>
+<body>
+    <h1>{{ user.nick_name }}</h1>
+
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    {% csrf_token %}
+    {% for thing in things %}
+        <p>You have {{thing.name}}</p>
+    {% endfor %}
+</body>
+</html>

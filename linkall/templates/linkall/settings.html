@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Your Device</title>
+</head>
+<body>
+    <h1>Settings of {{user.nick_name}}</h1>
+
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    <form action="{% url 'linkall:sets' %}" method="post">
+    {% csrf_token %}
+    {% for thing in things %}
+        <h1><input type="number" name="id" value="{{thing.id}}">: {{thing.name}}</h1>
+        <label for="name{{ forloop.counter }}">Name: </label><input type="text" name="name" id="name{{ forloop.counter }}" value="{{ thing.name }}"><br>
+        <label for="net_weight{{ forloop.counter }}">Net weight: </label><input type="text" name="name" id="net_weight{{ forloop.counter }}" value="{{ thing.net_weight }}"><br>
+    {% endfor %}
+    <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

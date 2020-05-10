@@ -4,7 +4,6 @@ class Thing(models.Model):
     name = models.CharField(max_length=100)
     nick_name = models.CharField(max_length=100)
     class_id = models.IntegerField(default=0) # Liquid, solid, etc. To decide icon
-    thing_id = models.IntegerField(default=0) # Query this thing. To assign to user
     net_weight = models.IntegerField(default=0) # Net weight
     autobuy_enable = models.BooleanField(default=True)
     autobuy_url = models.CharField(max_length=500)
@@ -13,10 +12,9 @@ class Thing(models.Model):
     power = models.IntegerField(default=80)
     status = models.CharField(max_length=200)
     def __str__(self):
-        return "%s(%s:%s)" % (self.name, self.thing_id, self.owned_by)
+        return "%s(%s:%s)" % (self.name, self.id, self.owned_by)
 
 class User(models.Model):
-    id = models.IntegerField(default=0,primary_key=True)
     nick_name = models.CharField(max_length=100)
     login_name = models.CharField(max_length=100)
     login_password = models.CharField(max_length=200)
