@@ -6,7 +6,7 @@ from datetime import datetime
 
 def scan():
     alpha = 0.085
-    iteration = 100
+    iteration = 1000
     phone = "6469193375"
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('linkall')
@@ -16,7 +16,7 @@ def scan():
     data = parse(response['Items'])
     if len(data) > 1:
         betas = linearRegression(datas=data, alpha=alpha, iteration=iteration)
-        runout_time = dt_object = datetime.fromtimestamp(int(predict([1,0], betas)))
+        runout_time = datetime.fromtimestamp(int(predict([1,0], betas)))
         #remains_time = int(runout_time - time())
         alert(phone, alarm_type="runout", data=runout_time) # for test
         #if remains_time < 30: # should be 3600 * 24 * 3 in final product
