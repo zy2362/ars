@@ -17,8 +17,8 @@ def scan():
     if len(data) > 1:
         betas = linearRegression(datas=data, alpha=alpha, iteration=iteration)
         runout_time = int(predict([1,0], betas))
-        print(runout_time)
-        print(betas)
+        #print(runout_time)
+        #print(betas)
         remains_time = runout_time - int(time())
         alert(phone, alarm_type="runout", data=remains_time) # for test
         #if remains_time < 30: # should be 3600 * 24 * 3 in final product
@@ -74,7 +74,7 @@ def alert(phone, alarm_type, data):
     elif alarm_type == 'offline':
         msg = 'Your ARS device for is offline'
     a = client.publish(Message = msg, TopicArn = topic_arn)
-    print(a)
+    #print(a)
 
 if __name__ == "__main__":
     scan()
