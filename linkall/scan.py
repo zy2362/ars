@@ -16,9 +16,9 @@ def scan():
     data = parse(response['Items'])
     if len(data) > 1:
         betas = linearRegression(datas=data, alpha=alpha, iteration=iteration)
-        runout_time = datetime.fromtimestamp(int(predict([1,0], betas)))
-        #remains_time = int(runout_time - time())
-        alert(phone, alarm_type="runout", data=runout_time) # for test
+        runout_time = int(predict([1,0], betas))
+        remains_time = runout_time - time()
+        alert(phone, alarm_type="runout", data=remains_time) # for test
         #if remains_time < 30: # should be 3600 * 24 * 3 in final product
         #    alert(phone, alarm_type="runout", data=remains_time)
 
@@ -68,7 +68,7 @@ def alert(phone, alarm_type, data):
     )
     msg = 'You have a new message.'
     if alarm_type == 'runout':
-        msg = 'Your water will runout in %s days' % data
+        msg = 'Your water will runout in %s seconds' % data # should use days finally
     elif alarm_type == 'offline':
         msg = 'Your ARS device for is offline'
     a = client.publish(Message = msg, TopicArn = topic_arn)
