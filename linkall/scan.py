@@ -44,19 +44,18 @@ def linearRegression(datas, alpha, iteration):
     for _ in range(iteration):
         tempSum = [0, 0]
         for data in datas:
-            tempPredict = predict(data, betas)
+            tempPredict = predictDelta(data, betas)
             tempSum[0] += tempPredict * data[0]
             tempSum[1] += tempPredict * data[1]
         betas[0] -= alpha * tempSum[0] / len(datas)
         betas[1] -= alpha * tempSum[1] / len(datas)
     return betas
 
-def predict(data, betas):
-    print('==DATA=========')
-    print(data)
-    print('==BETAS=========')
-    print(betas)
+def predictDelta(data, betas):
     return data[0] * betas[0] + data[1] * betas[1] - data[2]
+
+def predict(data, betas):
+    return data[0] * betas[0] + data[1] * betas[1]
 
 def alert(phone, alarm_type, data):
     client = boto3.client('sns')
