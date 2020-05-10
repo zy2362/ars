@@ -29,10 +29,8 @@ def submit(request, weight):
     return JsonResponse({"status": "success", "action": "submit record"})
 
 def settings(request):
-    things = Thing.objects.all()
-    user = User.objects.get(id=1)
-    context = {'user': user, 'things': things}
-    return render(request, 'linkall/settings.html', context)
+    return HttpResponse("Not avaliable")
+    # return render(request, 'linkall/settings.html', context)
 
 def dashboard(request, user_id):
     return HttpResponse("Not avaliable")
