@@ -31,10 +31,10 @@ def parse(datas):
     weights_mean = np.mean(weights)
 
     parsedData = []
-    for row in data:
+    for data in datas:
         nvRow = [1]
-        nvRow.append((int(row) - weights_mean) / weights_std)
-        nvRow.append(int(row[-1]))
+        nvRow.append((int(data['weight']) - weights_mean) / weights_std)
+        nvRow.append(int(data['time']))
         parsedData.append(nvRow)
 
     return parsedData
