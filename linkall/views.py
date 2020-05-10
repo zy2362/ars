@@ -2,34 +2,31 @@ from django.shortcuts import render
 from django.http import HttpResponse, Http404, JsonResponse
 from .models import User, Thing
 from random import random
+from time import time
+from .library import predict
 
-def hello(request, name):
-    newUser = User(id=int(random()*20),nick_name=str(random()*20),login_name=str(random()*20))
-    newUser.save()
-    users = User.objects.all()
-    output = [u.nick_name for u in users]
-    message = "There are %s users in this website. They are: %s" % (len(users), output)
-    return HttpResponse("Hello! Welcome to my home, %s.<br>%s" % (name, message))
+def alarm():
+    pass
 
-def index(request):
-    users = User.objects.all()
-    context = {'users': users}
-    return render(request, 'linkall/index.html', context)
+def initialize(request):
+    thing = Thing(id=1, name='Water', net_weight=184, phone='6469193375')
+    thing.save()
+    return HttpResponse("Initialization successed!")
 
-def dashboard(request, user_id):
-    things = Thing.objects.all()
-    user = User.objects.get(id=1)
-    context = {'user': user, 'things': things}
-    return render(request, 'linkall/dashboard.html', context)
-
-def register(request, id):
-    try:
-        newThing = Thing.objects.get(id=id)
-    except:
-        newThing = Thing(id=id)
-        newThing.save()
-        return JsonResponse({'status': 'success'})
-    return JsonResponse({'status': 'failed'})
+def submit(request, weight):
+    thing = Thing.objects.get(id=1)
+    thing.watch_dog = 0
+    if thing.weight <= weight - thing.net_weight:
+        f = open('~data/1.csv', 'w')
+    else:
+        f = open('~/data/1.csv', 'a+')
+    now = int(time() - 1589083224)
+    f.write(str(now),str(thing.weight))
+    thing.weight = weight - thing.net_weight
+    thing.save()
+    if(predict() < 30): # when will alarm user runout
+        alarm()
+    return JsonResponse({"status":"success"})
 
 def settings(request):
     things = Thing.objects.all()
@@ -37,14 +34,5 @@ def settings(request):
     context = {'user': user, 'things': things}
     return render(request, 'linkall/settings.html', context)
 
-def sets(request):
-    return HttpResponse("Success")
-
-def claim(request, thing_id, user_id):
-    try: user = User.objects.get(id=user_id)
-    except: return JsonResponse({'status': 'failed', 'msg': 'User is not exsists'})
-    try: thing = Thing.objects.get(id=thing_id)
-    except: return JsonResponse({'status': 'failed', 'msg': 'Thing is not exsists'})
-    thing.owned_by = user.id
-    thing.save()
-    return JsonResponse({'status': 'success'})
+def dashboard(request, user_id):
+    return render(request, 'linkall/dashboard.html', context)
