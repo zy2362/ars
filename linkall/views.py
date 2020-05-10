@@ -12,14 +12,14 @@ def initialize(request):
                   phone      = '6469193375',
                  )
     thing.save()
-    f = open('~data/1.csv', 'w')
+    f = open('~/data/1.csv', 'w')
     return JsonResponse({"status": "success", "action": "initialization"})
 
 def submit(request, weight):
     thing = Thing.objects.get(id=1)
     thing.watch_dog = 0
     if thing.weight <= weight - thing.net_weight:
-        f = open('~data/1.csv', 'w')
+        f = open('~/data/1.csv', 'w')
         thing.clear_time = time()
     else:
         f = open('~/data/1.csv', 'a+')
