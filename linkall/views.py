@@ -50,7 +50,7 @@ def clearDB():
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('linkall')
     response = table.scan(
-        FilterExpression=Attr('timeStamp2').lt(int(time.time())-120)
+        FilterExpression=Attr('thing_id').eq(1)
     )
     items = response['Items']
     for item in items:
