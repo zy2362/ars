@@ -12,6 +12,7 @@ def initialize(request):
                   phone      = '6469193375',
                  )
     thing.save()
+    f = open('~data/1.csv', 'w')
     return JsonResponse({"status": "success", "action": "initialization"})
 
 def submit(request, weight):
