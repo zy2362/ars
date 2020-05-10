@@ -13,6 +13,7 @@ def scan():
         FilterExpression=Attr('thing_id').eq(1)
     )
     data = parse(response['Items'])
+    print(data)
     if len(data) > 1:
         betas = linearRegression(datas=data, alpha=alpha, iteration=iteration)
         runout_time = predict([1,0], betas)
