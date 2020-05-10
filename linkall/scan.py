@@ -1,7 +1,7 @@
 import csv, boto3
 import numpy as np
 from time import time, sleep
-from .models import Thing
+from models import Thing
 
 def scan():
     alpha = 0.085
