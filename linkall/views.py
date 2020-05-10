@@ -3,7 +3,7 @@ from django.http import HttpResponse, Http404, JsonResponse
 from .models import Thing
 from random import random
 from time import time
-import os
+import os, boto3
 
 def initialize(request):
     thing = Thing(id=1, name = 'Water',
@@ -12,24 +12,17 @@ def initialize(request):
                   phone      = '6469193375',
                  )
     thing.save()
-    folder = os.path.exists('~/data/')
-    if not folder:
-        os.makedirs('~/data/')
-    f = open('~/data/1.csv', 'w')
-    f.close()
     return JsonResponse({"status": "success", "action": "initialization"})
 
 def submit(request, weight):
     thing = Thing.objects.get(id=1)
     thing.watch_dog = 0
     if thing.weight <= weight - thing.net_weight:
-        f = open('~/data/1.csv', 'w')
+        clearDB()
         thing.clear_time = time()
-    else:
-        f = open('~/data/1.csv', 'a+')
     time_flies = int(time() - thing.clear_time)
-    f.write(str(thing.weight)+","+str(time_flies)+"\n")
     thing.weight = weight - thing.net_weight
+    submitDB(time_flies, thing.weight)
     thing.save()
     return JsonResponse({"status": "success", "action": "submit record"})
 
@@ -39,3 +32,24 @@ def settings(request):
 
 def dashboard(request):
     return HttpResponse("Not avaliable")
+
+def submitDB(time, weight):
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('linkall')
+    table.put_item(
+        Item={
+            'time': time,
+            'weight': weight,
+            'thing_id': 1
+        }
+    )
+
+def clearDB():
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('linkall')
+    with table.batch_writer() as batch:
+        batch.delete_item(
+            Key={
+                'thing_id': 1
+            }
+        )
