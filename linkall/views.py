@@ -32,5 +32,5 @@ def settings(request):
     return HttpResponse("Not avaliable")
     # return render(request, 'linkall/settings.html', context)
 
-def dashboard(request, user_id):
+def dashboard(request):
     return HttpResponse("Not avaliable")
