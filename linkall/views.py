@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, Http404, JsonResponse
-from .models import User, Thing
+from .models import Thing
 from random import random
 from time import time
 
