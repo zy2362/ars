@@ -67,7 +67,7 @@ def alert(phone, alarm_type, data):
     )
     msg = 'You have a new message.'
     if alarm_type == 'runout':
-        msg = 'Your %s will be runout in %s days' % data
+        msg = 'Your water will be runout in %s days' % data
     elif alarm_type == 'offline':
         msg = 'Your ARS device for is offline'
     client.publish(Message = msg, TopicArn = topic_arn)
