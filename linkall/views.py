@@ -4,6 +4,7 @@ from .models import Thing
 from random import random
 from time import time
 import os, boto3
+from boto3.dynamodb.conditions import Key,Attr
 
 def initialize(request):
     thing = Thing(id=1, name = 'Water',
@@ -48,9 +49,13 @@ def submitDB(time, weight):
 def clearDB():
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('linkall')
-    with table.batch_writer() as batch:
-        batch.delete_item(
+    response = table.scan(
+        FilterExpression=Attr('timeStamp2').lt(int(time.time())-120)
+    )
+    items = response['Items']
+    for item in items:
+        response2 = table.delete_item(
             Key={
-                'thing_id': 1
+                'id': item['id']
             }
         )
