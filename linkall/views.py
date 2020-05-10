@@ -3,6 +3,7 @@ from django.http import HttpResponse, Http404, JsonResponse
 from .models import Thing
 from random import random
 from time import time
+import os
 
 
 def initialize(request):
@@ -12,7 +13,11 @@ def initialize(request):
                   phone      = '6469193375',
                  )
     thing.save()
+    folder = os.path.exists('~/data/')
+    if not folder:
+        os.makedirs('~/data/')
     f = open('~/data/1.csv', 'w')
+    f.close()
     return JsonResponse({"status": "success", "action": "initialization"})
 
 def submit(request, weight):
