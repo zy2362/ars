@@ -1,4 +1,4 @@
-import boto3
+import boto3, sys
 import numpy as np
 from time import time, sleep
 from boto3.dynamodb.conditions import Key,Attr
@@ -76,4 +76,9 @@ def alert(phone, alarm_type, data):
     #print(a)
 
 if __name__ == "__main__":
-    scan()
+    if sys.argv[1] == 'loop':
+        while True:
+            scan()
+            sleep(20)
+    else:
+        scan()
