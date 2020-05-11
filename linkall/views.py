@@ -20,7 +20,7 @@ def scan():
     response = table.scan(
         FilterExpression=Attr('thing_id').eq(1)
     )
-    data, rawData = parse(response['Items'])\
+    data, rawData = parse(response['Items'])
     print(data)
     if len(data) > 1:
         betas = lr(datas=data, alpha=alpha, iteration=iteration)
