@@ -17,50 +17,35 @@ for(i = 0; i < parsedPoints.length; i++) {
     parsedPoints[i][0] = Date(parsedPoints[i][0])
 }
 
-Highcharts.chart('container', {
+options= {
     chart: {
-        type: 'spline'
+        type: 'spline',
+        backgroundColor: 'transparent',
     },
-    title: {
-        text: 'Water Consumption'
-    },
-    subtitle: {
-        text: 'by the BEST project'
-    },
+    title: {text: ''},
+    subtitle: {text: ''},
+    credits: {text: ''},
     xAxis: {
         type: 'datetime',
         dateTimeLabelFormats: { // don't display the dummy year
             month: '%e. %b',
             year: '%b'
         },
-        title: {
-            text: 'Date'
-        }
     },
-    yAxis: {
-        title: {
-            text: 'Weight (g)'
-        },
-    },
+    yAxis: {title: {text: ''},},
     tooltip: {
-        headerFormat: '<b>{series.name}</b><br>',
-        pointFormat: '{point.x:%e. %b}: {point.y:.2f} m'
+        pointFormat: '{point.x:%e. %b}: {point.y:.0f}g'
     },
 
-    plotOptions: {
-        series: {
-            marker: {
-                enabled: true
-            }
-        }
-    },
+    plotOptions: {series: {marker: {enabled: true}}},
 
     colors: ['#6CF'],
 
-    series: [{
-        name: "Water",
-        data: parsedPoints
-    }],
+    series: [
+        {name: "Water",data: parsedPoints},
+    ],
+
+    legend: {enabled: false},
 
     responsive: {
         rules: [{
@@ -78,4 +63,7 @@ Highcharts.chart('container', {
             }
         }]
     }
-});
+};
+
+Highcharts.chart('container',options);
+Highcharts.chart('container2',options);

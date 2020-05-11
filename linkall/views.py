@@ -99,8 +99,8 @@ def settings(request):
     # return render(request, 'linkall/settings.html', context)
 
 def dashboard(request):
-    data = scan()
-    #data = [1589152465, [[1,1589152465,100],[1,1589142455,90],[1,1589132445,80],[1,1589122435,70],[1,1589112425,60]],[1589152465,-1] ]
+    #data = scan()
+    data = [1589152465, [[1,100,1589152465],[1,90,1589162455],[1,80,1589172445,80],[1,70,1589182435,70],[1,50,1589192425,60]],[1589152465,-1] ]
     if data == False:
         return HttpResponse("Data is still collecting...")
     else:

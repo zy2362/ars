@@ -2,26 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!--<meta http-equiv="refresh" content="1">-->
+    <!-- <meta http-equiv="refresh" content="1"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ user }} - Dashboard</title>
     {% load static %}
     <link rel="stylesheet" href='{% static "linkall/dashboard.css" %}'>
+    <link rel="shortcut icon" href='{% static "linkall/favicon.png" %}'>
     <script src="https://code.highcharts.com/highcharts.js"></script>
 </head>
 <body>
-    <nav></nav>
-    <div id="#body">
-        <h1>{{ user }}</h1>
+    <nav>
+        <div class="logo">ARS</div>
+        <div class="user">Welcome</div>
+    </nav>
+    <div id="body">
+        <h1>Dashboard</h1>
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
         {% csrf_token %}
-        <p>Your water will runout at {{ date }}</p>
-        <p>Data: {{ data }}</p>
-        <p>Betas: {{ beta }}</p>
-        <div id="container" style="width:100%; height:400px;"></div>
+        <div class="cards">
+            <div class="card">
+                <h2>Water</h2>
+                <div class="note"><span class="tag">Run out</span> {{date}}</div>
+                <div class="chart" id="container"></div>
+            </div>
+            <div class="card">
+                <h2>Oil</h2>
+                <div class="note"><span class="tag">Run out</span> {{date}}</div>
+                <div class="chart" id="container2"></div>
+            </div>
+        </div>
     </div>
-    <footer></footer>
+    <footer>
+        <div class="link"><a href="https://iotcolumbia2020best.weebly.com/">The BEST Project of Yang Zihan and Jing Yanwen</a></div>
+        <div class="link">
+            Powered by
+            <a href="https://www.highcharts.com/">Highcharts</a>,
+            <a href="https://aws.amazon.com/">Amazon Web Service</a>,
+            <a href="https://www.djangoproject.com/">django</a>
+            and
+            <a href="https://www.python.org/">python</a>
+        </div>
+    </footer>
     <script>
         var points = {{ data }};
         var lines = {{ beta }};
