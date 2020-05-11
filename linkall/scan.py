@@ -19,9 +19,9 @@ def scan(thing_id=1, notification=False): # 1 for testing
         print("runout_time:",runout_time)
         print("time:",time())
         print("min:", runout_time - time())
-        if runout_time < time() + 3600 - 4 * 3600:
+        if runout_time < time() + 3600:
             print("SENT")
-            runout_time = datetime.fromtimestamp(runout_time[0] - 4 * 3600)
+            runout_time = datetime.fromtimestamp(runout_time[0])
             alert(phone, alarm_type="runout", data=runout_time)
 
 def parse(datas):
