@@ -24,7 +24,7 @@ def scan():
     if len(data) > 1:
         betas = lr(datas=data, alpha=alpha, iteration=iteration)
         print(betas)
-        runout_time = int(predict([1,0], betas))
+        runout_time = int(predict([1,0,0], betas))
         #remains_time = datetime.fromtimestamp(runout_time - 4 * 3600)
         return [runout_time, rawData, betas]
     else:
@@ -71,31 +71,14 @@ def renew(datas, betas, alpha):
 
 def predict(data, betas):
     y = 0
-    for i in range(2):
-        y += data[i] * betas[i]
     print()
     print(data)
+    for i in range(2):
+        y += data[i] * betas[i]
+    print(y)
     print()
     y -= data[2]
     return y
-
-def linearRegression(datas, alpha, iteration):
-    betas = [0,0]
-    for _ in range(iteration):
-        tempSum = [0, 0]
-        for data in datas:
-            tempPredict = predictDelta(data, betas)
-            tempSum[0] += tempPredict * data[0]
-            tempSum[1] += tempPredict * data[1]
-        betas[0] -= alpha * tempSum[0] / len(datas)
-        betas[1] -= alpha * tempSum[1] / len(datas)
-    return betas
-
-def predictDelta(data, betas):
-    return data[0] * betas[0] + data[1] * betas[1] - data[2]
-
-def predict2(data, betas):
-    return data[0] * betas[0] + data[1] * betas[1]
 
 #==================================
 #  MODUALS
