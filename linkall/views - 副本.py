@@ -22,7 +22,7 @@ def scan():
     )
     data, rawData = parse(response['Items'])
     if len(data) > 1:
-        betas = lr(datas=data, alpha=alpha, iteration=iteration)
+        betas = linearRegression(datas=data, alpha=alpha, iteration=iteration)
         print(betas)
         runout_time = int(predict([1,0], betas))
         #remains_time = datetime.fromtimestamp(runout_time - 4 * 3600)
@@ -53,29 +53,6 @@ def parse(datas):
 
     return rawDatas, rawDatas
 
-def lr(datas, alpha, iteration):
-    betas = [0, 0]
-    for _ in range(iteration):
-        betas = renew(datas, betas, alpha)
-    return betas
-
-def renew(datas, betas, alpha):
-    betas = list(betas)
-    tempSum = [0, 0]
-    for data in datas:
-        for i in range(len(betas)):
-            tempSum[i] += predict(data, betas) * data[i]
-    for i in range(len(betas)):
-        betas[i] -= alpha * tempSum[i] / len(datas)
-    return betas
-
-def predict(data, betas):
-    y = 0
-    for i in range(2):
-        y += data[i] * betas[i]
-    y -= data[2]
-    return y
-
 def linearRegression(datas, alpha, iteration):
     betas = [0,0]
     for _ in range(iteration):
@@ -91,7 +68,7 @@ def linearRegression(datas, alpha, iteration):
 def predictDelta(data, betas):
     return data[0] * betas[0] + data[1] * betas[1] - data[2]
 
-def predict2(data, betas):
+def predict(data, betas):
     return data[0] * betas[0] + data[1] * betas[1]
 
 #==================================
