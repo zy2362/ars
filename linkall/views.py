@@ -14,8 +14,6 @@ from sklearn.linear_model import LinearRegression
 #==================================
 
 def predict(thing_id=1): # 1 for testing
-    alpha = 0.085
-    iteration = 10
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('linkall')
     response = table.scan(
@@ -63,7 +61,7 @@ def submit(request, weight):
         clearDB()
         thing.clear_time = time()
     thing.weight = weight - thing.net_weight
-    submitDB(int(time()-thing.clear_time), thing.weight)
+    submitDB(int(time()), thing.weight)
     thing.save()
     return JsonResponse({"status": "success", "action": "submit record"})
 
@@ -72,7 +70,6 @@ def settings(request):
     # return render(request, 'linkall/settings.html', context)
 
 def dashboard(request):
-    thing = Thing.objects.get(id=1)
     try:
         data = predict()
     except:
@@ -80,7 +77,7 @@ def dashboard(request):
     if data == False:
         return HttpResponse("Data is still collecting...")
     else:
-        context = {'user':'Yuan Sa', 'date':datetime.fromtimestamp(data[0]+thing.clear_time-4*3600), 'base_date':thing.clear_time, 'data':data[1], 'beta':data[2]}
+        context = {'user':'Yuan Sa', 'date':datetime.fromtimestamp(data[0]-4*3600), 'base_date':thing.clear_time, 'data':data[1], 'beta':data[2]}
         return render(request, 'linkall/dashboard.html', context=context)
 
 def submitDB(time, weight):

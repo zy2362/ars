@@ -3,10 +3,9 @@ import numpy as np
 from time import time, sleep
 from boto3.dynamodb.conditions import Key,Attr
 from datetime import datetime
+from sklearn.linear_model import LinearRegression
 
 def scan(notification=False):
-    alpha = 0.1
-    iteration = 1500
     phone = "6469193375"
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('linkall')
@@ -23,42 +22,31 @@ def scan(notification=False):
             alert(phone, alarm_type="runout", data=remains_time)
         else:
             return [str(remains_time), data, betas]
+            
+def predict(thing_id=1,notification=False): # 1 for testing
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('linkall')
+    response = table.scan(
+        FilterExpression=Attr('thing_id').eq(thing_id)
+    )
+    X, Y, rawData = parse(response['Items'])
+    if len(X) > 1:
+        reg = LinearRegression().fit(X, Y)
+        runout_time = reg.predict(np.array([[0]]))
+        remains_time = datetime.fromtimestamp(runout_time[0] - 4 * 3600)
+        return [runout_time[0], rawData, betas]
 
 def parse(datas):
     weights = []
     times = []
+    rawData = []
     for data in datas:
-        weights.append(int(data['weight']))
+        weights.append([int(data['weight'])])
         times.append(int(data['time']))
-    weights_std = np.std(weights, ddof=1)
-    weights_mean = np.mean(weights)
-
-    parsedData = []
-    for data in datas:
-        nvRow = [1]
-        nvRow.append((int(data['weight']) - weights_mean) / weights_std)
-        nvRow.append(int(data['time']))
-        parsedData.append(nvRow)
-
-    return parsedData
-
-def linearRegression(datas, alpha, iteration):
-    betas = [0, 0]
-    for _ in range(iteration):
-        tempSum = [0, 0]
-        for data in datas:
-            tempPredict = predictDelta(data, betas)
-            tempSum[0] += tempPredict * data[0]
-            tempSum[1] += tempPredict * data[1]
-        betas[0] -= alpha * tempSum[0] / len(datas)
-        betas[1] -= alpha * tempSum[1] / len(datas)
-    return betas
-
-def predictDelta(data, betas):
-    return data[0] * betas[0] + data[1] * betas[1] - data[2]
-
-def predict(data, betas):
-    return data[0] * betas[0] + data[1] * betas[1]
+        rawData.append([int(data['time']),int(data['weight'])])
+    weights = np.array(weights)
+    times = np.array(times)
+    return weights, times, rawData
 
 def alert(phone, alarm_type, data):
     client = boto3.client('sns')
@@ -79,7 +67,7 @@ def alert(phone, alarm_type, data):
 if __name__ == "__main__":
     if sys.argv[1] == 'loop':
         while True:
-            scan(True)
+            predict(notification=True)
             sleep(20)
     else:
-        scan(True)
+        predict(notification=True)
