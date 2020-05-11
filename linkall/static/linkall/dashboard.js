@@ -14,7 +14,16 @@ for(i = 0; i < parsedPoints.length; i++) {
     temp = parsedPoints[i];
     parsedPoints[i] = parsedPoints[min_index];
     parsedPoints[min_index] = temp;
-    parsedPoints[i][0] = Date(parsedPoints[i][0])
+    
+    parsedPoints[i][0] = timestampToDate(parsedPoints[i][0])
+}
+function timestampToDate(timestamp) {
+    let date = new Date(timestamp),
+        y = date.getFullYear(),
+        m = date.getMonth(),
+        d = date.getDay(),
+        h = date.getHours();
+    return Date.UTC(y,m,d,h);
 }
 
 options= {
@@ -34,7 +43,7 @@ options= {
     },
     yAxis: {title: {text: ''},},
     tooltip: {
-        pointFormat: '{point.x:%e. %b}: {point.y:.0f}g'
+        pointFormat: '{point.y:.0f}g'
     },
 
     plotOptions: {series: {marker: {enabled: true}}},
