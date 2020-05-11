@@ -14,8 +14,8 @@ for(i = 0; i < parsedPoints.length; i++) {
     temp = parsedPoints[i];
     parsedPoints[i] = parsedPoints[min_index];
     parsedPoints[min_index] = temp;
+    parsedPoints[i][0] += base_date;
     //parsedPoints[i][0] = timestampToDate(parsedPoints[i][0])
-    //console.log(parsedPoints[i][0]);
 }
 function timestampToDate(timestamp) {
     date = new Date(timestamp);
@@ -23,7 +23,7 @@ function timestampToDate(timestamp) {
     m = date.getMonth();
     d = date.getDay();
     h = date.getHours();
-    return Date.UTC(y,m,d,h);
+    return Date.UTC(y,m,d,h-4);
 }
 
 options= {
