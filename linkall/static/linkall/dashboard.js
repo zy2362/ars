@@ -15,7 +15,7 @@ for(i = 0; i < parsedPoints.length; i++) {
     parsedPoints[i] = parsedPoints[min_index];
     parsedPoints[min_index] = temp;
     parsedPoints[i][0] += base_date;
-    //parsedPoints[i][0] = timestampToDate(parsedPoints[i][0])
+    parsedPoints[i][0] = timestampToDate(parsedPoints[i][0])
 }
 function timestampToDate(timestamp) {
     date = new Date(timestamp);
