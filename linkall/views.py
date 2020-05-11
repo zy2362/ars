@@ -24,8 +24,8 @@ def scan():
     if len(data) > 1:
         betas = linearRegression(datas=data, alpha=alpha, iteration=iteration)
         runout_time = int(predict([1,0], betas))
-        remains_time = datetime.fromtimestamp(runout_time - 4 * 3600)
-        return [str(remains_time), data, betas]
+        #remains_time = datetime.fromtimestamp(runout_time - 4 * 3600)
+        return [runout_time, data, betas]
     else:
         return False
 
