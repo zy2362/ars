@@ -1,16 +1,6 @@
-var parsedPoints = {
-    x:[],
-    y:[],
-}
+var parsedPoints = []
 for(point of points) {
-    parsedPoints.x.push(Date(point[2]*1000));
-    parsedPoints.y.push(parseInt(point[1]));
-}
-console.log(parsedPoints);
-
-var parsedPairsDots = [];
-for(i in parsedPoints.x) {
-    parsedPairsDots.push([parsedPoints.x[i],parsedPoints.y[i]]);
+    parsedPoints.push([Date(point[2]*1000),parseInt(point[1])]);
 }
 
 Highcharts.chart('container', {
@@ -56,7 +46,7 @@ Highcharts.chart('container', {
 
     series: [{
         name: "Water",
-        data: parsedPairsDots
+        data: parsedPoints
     }],
 
     responsive: {
