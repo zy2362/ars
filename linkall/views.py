@@ -77,7 +77,7 @@ def dashboard(request):
     if data == False:
         return HttpResponse("Data is still collecting...")
     else:
-        context = {'user':'Yuan Sa', 'date':datetime.fromtimestamp(data[0]-4*3600), 'base_date':thing.clear_time, 'data':data[1], 'beta':data[2]}
+        context = {'user':'Yuan Sa', 'date':datetime.fromtimestamp(data[0]-4*3600), 'data':data[1], 'beta':data[2]}
         return render(request, 'linkall/dashboard.html', context=context)
 
 def submitDB(time, weight):
