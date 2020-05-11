@@ -23,6 +23,7 @@ def scan():
     data, rawData = parse(response['Items'])
     if len(data) > 1:
         betas = linearRegression(datas=data, alpha=alpha, iteration=iteration)
+        print(betas)
         runout_time = int(predict([1,0], betas))
         #remains_time = datetime.fromtimestamp(runout_time - 4 * 3600)
         return [runout_time, rawData, betas]
