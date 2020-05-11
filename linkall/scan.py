@@ -4,49 +4,31 @@ from time import time, sleep
 from boto3.dynamodb.conditions import Key,Attr
 from datetime import datetime
 from sklearn.linear_model import LinearRegression
-
-def scan(notification=False):
-    phone = "6469193375"
-    dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('linkall')
-    response = table.scan(
-        FilterExpression=Attr('thing_id').eq(1)
-    )
-    data = parse(response['Items'])
-    if len(data) > 1:
-        betas = linearRegression(datas=data, alpha=alpha, iteration=iteration)
-        runout_time = int(predict([1,0], betas))
-        #remains_time = runout_time - int(time())
-        remains_time = datetime.fromtimestamp(runout_time - 4 * 3600)
-        if notification == True:
-            alert(phone, alarm_type="runout", data=remains_time)
-        else:
-            return [str(remains_time), data, betas]
             
-def predict(thing_id=1,notification=False): # 1 for testing
+def scan(thing_id=1, notification=False): # 1 for testing
+    phone = "6469193375"
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('linkall')
     response = table.scan(
         FilterExpression=Attr('thing_id').eq(thing_id)
     )
-    X, Y, rawData = parse(response['Items'])
+    X, Y = parse(response['Items'])
     if len(X) > 1:
         reg = LinearRegression().fit(X, Y)
         runout_time = reg.predict(np.array([[0]]))
-        remains_time = datetime.fromtimestamp(runout_time[0] - 4 * 3600)
-        return [runout_time[0], rawData, betas]
+        if runout_time < time() + 3600 - 4 * 3600:
+            runout_time = datetime.fromtimestamp(runout_time[0] - 4 * 3600)
+            alert(phone, alarm_type="runout", data=runout_time)
 
 def parse(datas):
     weights = []
     times = []
-    rawData = []
     for data in datas:
         weights.append([int(data['weight'])])
         times.append(int(data['time']))
-        rawData.append([int(data['time']),int(data['weight'])])
     weights = np.array(weights)
     times = np.array(times)
-    return weights, times, rawData
+    return weights, times
 
 def alert(phone, alarm_type, data):
     client = boto3.client('sns')
