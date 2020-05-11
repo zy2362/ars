@@ -16,7 +16,10 @@ def scan(thing_id=1, notification=False): # 1 for testing
     if len(X) > 1:
         reg = LinearRegression().fit(X, Y)
         runout_time = reg.predict(np.array([[0]]))
+        print("runout_time:",runout_time)
+        print("time:",time())
         if runout_time < time() + 3600 - 4 * 3600:
+            print("SENT")
             runout_time = datetime.fromtimestamp(runout_time[0] - 4 * 3600)
             alert(phone, alarm_type="runout", data=runout_time)
 
