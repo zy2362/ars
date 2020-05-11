@@ -17,14 +17,13 @@ for(i = 0; i < parsedPoints.length; i++) {
 
     parsedPoints[i][0] = timestampToDate(parsedPoints[i][0])
     console.log(parsedPoints[i][0]);
-    
 }
 function timestampToDate(timestamp) {
-    let date = new Date(timestamp),
-        y = date.getFullYear(),
-        m = date.getMonth(),
-        d = date.getDay(),
-        h = date.getHours();
+    date = new Date(timestamp);
+    y = date.getFullYear();
+    m = date.getMonth();
+    d = date.getDay();
+    h = date.getHours();
     return Date.UTC(y,m,d,h);
 }
 
