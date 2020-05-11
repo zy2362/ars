@@ -100,6 +100,7 @@ def settings(request):
     # return render(request, 'linkall/settings.html', context)
 
 def dashboard(request):
+    thing = Thing.objects.get(id=1)
     data = scan()
     try:
         data = scan()
@@ -108,7 +109,7 @@ def dashboard(request):
     if data == False:
         return HttpResponse("Data is still collecting...")
     else:
-        context = {'user':'Yuan Sa', 'date':datetime.fromtimestamp(data[0]), 'data':data[1], 'beta':data[2]}
+        context = {'user':'Yuan Sa', 'date':datetime.fromtimestamp(data[0]+thing.clear_time), 'data':data[1], 'beta':data[2]}
         return render(request, 'linkall/dashboard.html', context=context)
 
 def submitDB(time, weight):
