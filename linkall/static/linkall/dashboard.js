@@ -16,6 +16,8 @@ for(i = 0; i < parsedPoints.length; i++) {
     parsedPoints[min_index] = temp;
     parsedPoints[i][0] = timestampToDate(parsedPoints[i][0])
 }
+console.log(parsedPoints);
+
 function timestampToDate(timestamp) {
     date = new Date(timestamp);
     y = date.getFullYear();
