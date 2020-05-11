@@ -3,8 +3,8 @@ var parsedPoints = {
     y:[],
 }
 for(point of points) {
-    parsedPoints.x.push(Date(point[1]*1000));
-    parsedPoints.y.push(parseInt(point[2]));
+    parsedPoints.x.push(Date(point[2]*1000));
+    parsedPoints.y.push(parseInt(point[1]));
 }
 console.log(parsedPoints);
 
