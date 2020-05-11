@@ -7,6 +7,7 @@ from random import random
 from time import time, sleep
 from datetime import datetime
 from boto3.dynamodb.conditions import Key,Attr
+from sklearn.linear_model import LinearRegression
 
 #==================================
 # Precidt
@@ -20,66 +21,27 @@ def scan():
     response = table.scan(
         FilterExpression=Attr('thing_id').eq(1)
     )
-    data, rawData = parse(response['Items'])
-    print(data)
-    if len(data) > 1:
-        betas = lr(datas=data, alpha=alpha, iteration=iteration)
-        #print(betas)
-        runout_time = int(predict([1,0,0], betas))
+    X, Y, rawData = parse(response['Items'])
+    if len(X) > 1:
+        reg = LinearRegression().fit(X, Y)
+        betas = [0,0]
+        runout_time = reg.predict(np.array([[0]]))
         #remains_time = datetime.fromtimestamp(runout_time - 4 * 3600)
-        return [runout_time, rawData, betas]
+        return [runout_time[0], rawData, betas]
     else:
         return False
 
 def parse(datas):
     weights = []
     times = []
+    rawData = []
     for data in datas:
-        weights.append(int(data['weight']))
+        weights.append([int(data['weight'])])
         times.append(int(data['time']))
-    weights_std = np.std(weights, ddof=1)
-    weights_mean = np.mean(weights)
-
-    parsedData = []
-    rawDatas = []
-    for data in datas:
-        nvRow = [1]
-        rawData = [1]
-        nvRow.append((int(data['weight']) - weights_mean) / weights_std)
-        nvRow.append(int(data['time']))
-        rawData.append(int(data['weight']))
-        rawData.append(int(data['time']))
-        parsedData.append(nvRow)
-        rawDatas.append(rawData)
-
-    return rawDatas, rawDatas
-
-def lr(datas, alpha, iteration):
-    betas = [0, 0]
-    for _ in range(iteration):
-        betas = renew(datas, betas, alpha)
-        if(betas[0] > 0):
-            #print(betas)
-            pass
-    return betas
-
-def renew(datas, betas, alpha):
-    betas = list(betas)
-    tempSum = [0, 0]
-    for data in datas:
-        for i in range(len(betas)):
-            tempSum[i] += predict(data, betas) * data[i]
-    for i in range(len(betas)):
-        betas[i] -= alpha * tempSum[i] / len(datas)
-    return betas
-
-def predict(data, betas):
-    y = 0
-    for i in range(2):
-        y += data[i] * betas[i]
-    print(y)
-    y -= data[2]
-    return y
+        rawData.append([int(data['weight']),int(data['time'])])
+    weights = np.array(weights)
+    times = np.array(times)
+    return weights, times, rawData
 
 #==================================
 #  MODUALS
