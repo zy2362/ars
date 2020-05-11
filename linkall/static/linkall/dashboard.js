@@ -14,8 +14,10 @@ for(i = 0; i < parsedPoints.length; i++) {
     temp = parsedPoints[i];
     parsedPoints[i] = parsedPoints[min_index];
     parsedPoints[min_index] = temp;
-    
+
     parsedPoints[i][0] = timestampToDate(parsedPoints[i][0])
+    console.log(parsedPoints[i][0]);
+    
 }
 function timestampToDate(timestamp) {
     let date = new Date(timestamp),
