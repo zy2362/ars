@@ -20,12 +20,12 @@ def scan():
     response = table.scan(
         FilterExpression=Attr('thing_id').eq(1)
     )
-    data = parse(response['Items'])
+    data, rawData = parse(response['Items'])
     if len(data) > 1:
         betas = linearRegression(datas=data, alpha=alpha, iteration=iteration)
         runout_time = int(predict([1,0], betas))
         #remains_time = datetime.fromtimestamp(runout_time - 4 * 3600)
-        return [runout_time, data, betas]
+        return [runout_time, rawData, betas]
     else:
         return False
 
@@ -39,13 +39,18 @@ def parse(datas):
     weights_mean = np.mean(weights)
 
     parsedData = []
+    rawDatas = []
     for data in datas:
         nvRow = [1]
+        rawData = [1]
         nvRow.append((int(data['weight']) - weights_mean) / weights_std)
         nvRow.append(int(data['time']))
+        rawData.append(int(data['weight']))
+        rawData.append(int(data['time']))
         parsedData.append(nvRow)
+        rawDatas.append(rawData)
 
-    return parsedData
+    return parsedData, rawDatas
 
 def linearRegression(datas, alpha, iteration):
     betas = [0, 0]
