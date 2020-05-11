@@ -50,7 +50,7 @@ def parse(datas):
         parsedData.append(nvRow)
         rawDatas.append(rawData)
 
-    return parsedData, rawDatas
+    return rawDatas, rawDatas
 
 def linearRegression(datas, alpha, iteration):
     betas = [datas[0][0], datas[0][1] - datas[1][1]]
