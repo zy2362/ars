@@ -10,7 +10,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 .5em;
+    padding: .2em .5em;
     color: white;
     font-size: 2em;
     background-color: black;
