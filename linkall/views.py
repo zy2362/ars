@@ -24,7 +24,7 @@ def scan():
     print(data)
     if len(data) > 1:
         betas = lr(datas=data, alpha=alpha, iteration=iteration)
-        print(betas)
+        #print(betas)
         runout_time = int(predict([1,0,0], betas))
         #remains_time = datetime.fromtimestamp(runout_time - 4 * 3600)
         return [runout_time, rawData, betas]
@@ -77,6 +77,7 @@ def predict(data, betas):
     y = 0
     for i in range(2):
         y += data[i] * betas[i]
+    print(y)
     y -= data[2]
     return y
 
