@@ -96,8 +96,11 @@ def settings(request):
 def dashboard(request):
     data = scan()
     #data = [1589152465, [[1,1589152465,100],[1,1589142455,90],[1,1589132445,80],[1,1589122435,70],[1,1589112425,60]],[1589152465,-1] ]
-    context = {'user':'Yuan Sa', 'date':datetime.fromtimestamp(data[0]), 'data':data[1], 'beta':data[2]}
-    return render(request, 'linkall/dashboard.html', context=context)
+    if data == True:
+        context = {'user':'Yuan Sa', 'date':datetime.fromtimestamp(data[0]), 'data':data[1], 'beta':data[2]}
+        return render(request, 'linkall/dashboard.html', context=context)
+    else:
+        return HttpResponse("Data is still collecting...")
 
 def submitDB(time, weight):
     dynamodb = boto3.resource('dynamodb')
