@@ -38,7 +38,7 @@ def parse(datas):
     for data in datas:
         weights.append([int(data['weight'])])
         times.append(int(data['time']))
-        rawData.append([int(data['weight']),int(data['time'])])
+        rawData.append([int(data['time']),int(data['weight'])])
     weights = np.array(weights)
     times = np.array(times)
     return weights, times, rawData

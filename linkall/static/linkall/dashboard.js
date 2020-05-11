@@ -1,6 +1,6 @@
 var parsedPoints = []
 for(point of points) {
-    parsedPoints.push([point[2]*1000,parseInt(point[1])]);
+    parsedPoints.push([point[0]*1000,parseInt(point[1])]);
 }
 for(i = 0; i < parsedPoints.length; i++) {
     min_val = parsedPoints[i][0];
