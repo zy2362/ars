@@ -41,7 +41,7 @@ options= {
             year: '%b'
         },
     },
-    yAxis: {title: {text: ''},},
+    yAxis: {title: {text: ''}, min: 0},
     tooltip: {
         pointFormat: '{point.y:.0f}g'
     },
