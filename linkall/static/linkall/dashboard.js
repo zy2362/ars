@@ -41,7 +41,6 @@ Highcharts.chart('container', {
         title: {
             text: 'Weight (g)'
         },
-        min: 0
     },
     tooltip: {
         headerFormat: '<b>{series.name}</b><br>',
