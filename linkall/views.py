@@ -57,7 +57,8 @@ def lr(datas, alpha, iteration):
     betas = [0, 0]
     for _ in range(iteration):
         betas = renew(datas, betas, alpha)
-        print(betas)
+        if(betas[0] > 0):
+            print(betas)
     return betas
 
 def renew(datas, betas, alpha):
