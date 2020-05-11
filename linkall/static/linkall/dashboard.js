@@ -14,6 +14,7 @@ for(i = 0; i < parsedPoints.length; i++) {
     temp = parsedPoints[i];
     parsedPoints[i] = parsedPoints[min_index];
     parsedPoints[min_index] = temp;
+    parsedPoints[i][0] = Date(parsedPoints[i][0])
 }
 
 Highcharts.chart('container', {
