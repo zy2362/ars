@@ -53,7 +53,7 @@ def parse(datas):
     return parsedData, rawDatas
 
 def linearRegression(datas, alpha, iteration):
-    betas = [0, 0]
+    betas = [datas[0][0], datas[0][1]]
     for _ in range(iteration):
         tempSum = [0, 0]
         for data in datas:
