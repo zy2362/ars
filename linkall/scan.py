@@ -49,7 +49,7 @@ def alert(phone, alarm_type, data):
 if __name__ == "__main__":
     if sys.argv[1] == 'loop':
         while True:
-            predict(notification=True)
+            scan(notification=True)
             sleep(20)
     else:
-        predict(notification=True)
+        scan(notification=True)
