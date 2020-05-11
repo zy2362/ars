@@ -99,6 +99,7 @@ def settings(request):
     # return render(request, 'linkall/settings.html', context)
 
 def dashboard(request):
+    data = scan()
     try:
         data = scan()
     except:
