@@ -13,8 +13,8 @@ from boto3.dynamodb.conditions import Key,Attr
 #==================================
 
 def scan():
-    alpha = 0.1
-    iteration = 1500
+    alpha = 0.05
+    iteration = 500
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('linkall')
     response = table.scan(
@@ -96,11 +96,11 @@ def settings(request):
 def dashboard(request):
     data = scan()
     #data = [1589152465, [[1,1589152465,100],[1,1589142455,90],[1,1589132445,80],[1,1589122435,70],[1,1589112425,60]],[1589152465,-1] ]
-    if data == True:
+    if data == False:
+        return HttpResponse("Data is still collecting...")
+    else:
         context = {'user':'Yuan Sa', 'date':datetime.fromtimestamp(data[0]), 'data':data[1], 'beta':data[2]}
         return render(request, 'linkall/dashboard.html', context=context)
-    else:
-        return HttpResponse("Data is still collecting...")
 
 def submitDB(time, weight):
     dynamodb = boto3.resource('dynamodb')
