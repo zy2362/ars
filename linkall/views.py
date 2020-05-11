@@ -73,6 +73,9 @@ def predict(data, betas):
     y = 0
     for i in range(2):
         y += data[i] * betas[i]
+    print()
+    print(data)
+    print()
     y -= data[2]
     return y
 
