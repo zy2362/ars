@@ -22,10 +22,10 @@ Highcharts.chart('container', {
         type: 'spline'
     },
     title: {
-        text: 'Snow depth at Vikjafjellet, Norway'
+        text: 'Water Consumption'
     },
     subtitle: {
-        text: 'Irregular time data in Highcharts JS'
+        text: 'by the BEST project'
     },
     xAxis: {
         type: 'datetime',
