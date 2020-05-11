@@ -13,8 +13,8 @@ from boto3.dynamodb.conditions import Key,Attr
 #==================================
 
 def scan():
-    alpha = 0.02
-    iteration = 1000
+    alpha = 0.015
+    iteration = 2000
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('linkall')
     response = table.scan(
