@@ -22,9 +22,7 @@ We used the official APP template of django. All stuff are in it's recommanded p
 
 Path | Usage
 ---- | -----
-
 /ars/* | Website setting folder. It doesn't matter here
-
 /linkall/* | For main APP server codes
 /linkall/urls.py | Pass the handle of HTTP request
 /linkall/models.py | Defines the object structure
