@@ -2,8 +2,8 @@
 
 Auto replenishment system (ARS) is a system that can detect the weight of the remains in containers everyday, store data in the cloud, predict the time when the remains will run out, and informing the user in time to purchase them. The code for the project can be divided into two parts:
 
- - Server APP
  - Hardware
+ - Server APP
  
 ## Hardware
 
