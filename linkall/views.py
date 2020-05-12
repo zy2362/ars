@@ -57,7 +57,7 @@ def initialize(request):
 def submit(request, weight):
     thing = Thing.objects.get(id=1)
     thing.watch_dog = 0
-    if thing.weight <= weight - thing.net_weight:
+    if  (weight - thing.net_weight - thing.weight) > thing.weight * 0.1:
         clearDB()
         thing.clear_time = time()
     thing.weight = weight - thing.net_weight
