@@ -20,15 +20,18 @@ The program will run continuously. It will output the value of the weight every 
 
 We used the official APP template of django. All stuff are in it's recommanded position.
 
-/ars/* is the website setting folder. It doesn't matter here
+Path | Usage
+---- | -----
 
-/linkall/* for main APP server codes
-/linkall/urls.py pass the handle of HTTP request
-/linkall/models.py defines the object structure
-/linkall/views.py contains functions handle the request, including I/O data to/from DynamoDB, do linear regression
-/linkall/scan.py is the watchdog code. It will be periodically run to find the stuff will soon runout. Then notice the user.
-/linkall/template/* is HTML templates for front-end rendering
-/linkall/static/* contians the solid files like CSS/JS and pictures used by web page
+/ars/* | Website setting folder. It doesn't matter here
+
+/linkall/* | For main APP server codes
+/linkall/urls.py | Pass the handle of HTTP request
+/linkall/models.py | Defines the object structure
+/linkall/views.py | Contains functions handle the request, including I/O data to/from DynamoDB, do linear regression
+/linkall/scan.py | The watchdog code. It will be periodically run to find the stuff will soon runout. Then notice the user.
+/linkall/template/* | HTML templates for front-end rendering
+/linkall/static/* | Contians the solid files like CSS/JS and pictures used by web page
 
 ### Work Flow
 
