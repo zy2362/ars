@@ -33,14 +33,4 @@ Path | Usage
 
 ### Work Flow
 
-The views.py under linkall folder is our main APP codes. And the urls is the caller of these functions.
-
-When we login /linkall/sumbit/{weight} url, url.py will match it to the record
-
-```python
-path('submit/<int:weight>', views.submit, name="submit"),
-```
-
-Then the server will pass the handle to views.submit function.
-
-In views.sumbit function, we will 
+![Image of WorkFlow](./images/ARS.png)
